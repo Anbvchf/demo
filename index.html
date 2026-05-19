@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Healthcare Services - Guangzhou</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght=400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons (e.g., plus/minus, user, email) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0056b3; /* Darker blue for accents */
+            --secondary-color: #f8f9fa; /* Light grey for sections */
+            --text-color: #343a40; /* Dark grey for body text */
+            --heading-color: #212529; /* Even darker for headings */
+            --white: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --active-button-color: #004085; /* Darker primary for active state */
+            --accent-yellow: #ffc107; /* For "Review & Book" button and highlights */
+            --light-blue: #e7f3ff; /* Light background for selections */
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--secondary-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4 { /* Added h4 to general styling */
+            font-family: 'Montserrat', sans-serif;
+            color: var(--heading-color);
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 2.2em; text-align: center; color: var(--primary-color); }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.4em; color: var(--primary-color); cursor: pointer; display: flex; align-items: center; padding: 1em 1.5em; margin: 0; }
+        h3 .toggle-icon { margin-left: auto; font-size: 0.8em; }
+        h4 { font-size: 1.2em; color: var(--primary-color); } /* Styling for new h4 in popup */
+
+
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 1.5em 0;
+        }
+
+        .header-section {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 2em 0 1em 0;
+            text-align: center;
+            margin-bottom: 2em;
+        }
+
+        .header-section h1 {
+            color: var(--white);
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .header-section p {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0.5em auto;
+            line-height: 1.5;
+        }
+
+        .mode-selection-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            margin-top: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .mode-button {
+            background-color: var(--white);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.8em 1.5em;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-button:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .mode-button.active {
+            background-color: var(--active-button-color);
+            color: var(--white);
+            border-color: var(--active-button-color);
+            box-shadow: var(--box-shadow);
+        }
+
+        .service-category, .package-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 1.5em;
+            overflow: hidden;
+        }
+
+        .service-list, .package-details {
+            padding: 1em 1.5em;
+            border-top: 1px solid #eee;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .package-card h3 {
+            padding: 1em 1.5em;
+            margin-top: 0;
+            margin-bottom: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8em 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item input[type="checkbox"], .service-item input[type="radio"] {
+            margin-right: 1em;
+            min-width: 20px;
+            min-height: 20px;
+            cursor: pointer;
+        }
+
+        .service-details {
+            flex-grow: 1;
+        }
+
+        .service-details strong {
+            display: block;
+            font-size: 1.1em;
+            color: var(--heading-color);
+        }
+
+        .service-details small {
+            color: #6c757d;
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-left: 1.5em;
+            white-space: nowrap;
+        }
+
+        .package-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-top: 0.5em;
+        }
+
+        /* NEW Summary Bar Styling */
+        .new-summary-bar {
+            background-color: var(--primary-color); /* Blue background */
+            color: var(--white);
+            padding: 1em 1.5em;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .new-summary-bar .summary-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .new-summary-bar .selection-count {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 0.2em;
+        }
+
+        .new-summary-bar .total-amount {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--accent-yellow); /* Yellow for total price */
+        }
+
+        .new-summary-bar .review-button {
+            background-color: var(--accent-yellow); /* Yellow button */
+            color: var(--primary-color); /* Blue text */
+            border: none;
+            padding: 0.8em 1.5em;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
+        .new-summary-bar .review-button:hover {
+            background-color: #ffda6a; /* Lighter yellow on hover */
+            transform: translateY(-1px);
+        }
+        .new-summary-bar .review-button:active {
+            transform: translateY(0);
+        }
+
+        /* Your Selections Popup/Drawer Styling */
+        .selections-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1010;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: flex-end; /* Align to bottom, like a drawer */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .selections-popup-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .selections-popup-content {
+            background-color: var(--white);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px; /* Max width for desktop */
+            max-height: 80vh; /* Max height to be scrollable */
+            overflow-y: auto;
+            transform: translateY(100%); /* Start off-screen */
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .selections-popup-overlay.show .selections-popup-content {
+            transform: translateY(0); /* Slide in */
+        }
+
+        .selections-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2em 1.5em;
+            border-bottom: 1px solid #eee;
+            background-color: var(--light-blue); /* Light blue header */
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .selections-popup-header h4 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .selections-popup-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: color 0.2s ease;
+        }
+
+        .selections-popup-header .close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .selections-list {
+            padding: 1.5em;
+            flex-grow: 1; /* Allow list to take available height */
+        }
+
+        .selections-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8em 0;
+            border-bottom: 1px dashed #eee;
+            color: var(--text-color);
+        }
+
+        .selections-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .selections-list-item .item-details {
+            flex-grow: 1;
+        }
+        .selections-list-item .item-details strong {
+            display: block;
+            font-size: 1.1em;
+            color: var(--heading-color);
+        }
+        .selections-list-item .item-details small {
+            color: #6c757d;
+        }
+
+
+        .selections-list-item .item-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-left: 1em;
+            min-width: 80px; /* Ensure price column aligns */
+            text-align: right;
+        }
+
+        .selections-list-item .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            margin-left: 1em;
+        }
+
+        .selections-list-item .quantity-controls button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .selections-list-item .quantity-controls button:hover {
+            background-color: var(--active-button-color);
+        }
+
+        .selections-list-item .quantity-controls .quantity-display {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .selections-total-section {
+            padding: 1.5em;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+        }
+        .selections-total-section .total-value {
+            color: var(--heading-color);
+        }
+
+        .selections-form-section {
+            padding: 1.5em;
+            background-color: var(--white);
+            border-top: 1px solid #eee;
+        }
+
+        .selections-form-section input[type="text"],
+        .selections-form-section input[type="email"] {
+            width: calc(100% - 2em); /* Adjust for padding */
+            padding: 1em;
+            margin-bottom: 1em;
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .selections-form-section input::placeholder {
+            color: #999;
+        }
+
+        .request-button {
+            background-color: var(--accent-yellow);
+            color: var(--primary-color);
+            border: none;
+            padding: 1em 1.5em;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5em;
+        }
+
+        .request-button:hover {
+            background-color: #ffda6a;
+        }
+
+        .secure-info {
+            text-align: center;
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-top: 0.8em;
+        }
+        .secure-info .fa-lock {
+            margin-right: 0.3em;
+        }
+
+
+        /* Floating Contact Button */
+        .contact-float-btn {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            box-shadow: var(--box-shadow);
+            cursor: grab;
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+            touch-action: none;
+        }
+
+        .contact-float-btn:hover {
+            background-color: #004085;
+        }
+
+        .contact-float-btn:active {
+            cursor: grabbing;
+        }
+
+        /* Contact Pop-up Window */
+        .contact-popup {
+            position: fixed;
+            right: 90px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5em;
+            width: 280px;
+            z-index: 1002;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .contact-popup.show {
+            display: block;
+        }
+
+        .contact-popup h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.2em;
+            margin-bottom: 0.8em;
+        }
+
+        .contact-popup ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-popup ul li {
+            margin-bottom: 0.8em;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-popup ul li .icon {
+            margin-right: 0.8em;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+
+        .contact-popup ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-popup ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Simple icons for contact popup */
+        .contact-popup .icon-phone::before { content: "📞"; }
+        .contact-popup .icon-whatsapp::before { content: "💬"; }
+        .contact-popup .icon-email::before { content: "✉️"; }
+
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            h1 { font-size: 3em; }
+            h2 { font-size: 2.2em; }
+            .container { max-width: 800px; }
+            /* .summary-box { font-size: 1.5em; padding: 2em; } */ /* Removed old summary box styling */
+            .mode-selection-buttons { gap: 2em; }
+            .selections-popup-content {
+                width: 80%; /* Wider on desktop */
+                max-width: 700px;
+                border-radius: var(--border-radius); /* Full radius on desktop */
+                transform: translateY(0); /* Center on desktop */
+                max-height: 90vh;
+            }
+            .selections-popup-overlay.show {
+                align-items: center; /* Center vertically on desktop */
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <div class="container">
+            <h1>Select Your Personalized Healthcare & Concierge Services</h1>
+            <p>Tailor your medical journey to Guangzhou. Choose the services that best fit your needs, or select a pre-designed package for convenience.</p>
+            <div class="mode-selection-buttons">
+                <button class="mode-button active" id="customModeBtn" onclick="setMode('custom')">Customized Services</button>
+                <button class="mode-button" id="packageModeBtn" onclick="setMode('package')">Choose A Package</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Customized Services Mode Content -->
+        <div id="customModeContent" class="content-mode">
+            <h2>Build Your Own Journey</h2>
+            <p>Select individual services from our comprehensive offerings to create a plan perfectly tailored to your requirements. Your estimated total will update below.</p>
+
+            <!-- Service Category: Core Medical Services -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Core Medical Services <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="core1" data-type="service" data-name="Int. Dept. Senior Consultant Appointment" data-details="Specialty specific, not named doctor (Per consultation)" data-price="298">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Int. Dept. Senior Consultant Appointment</strong>
+                            <small>Specialty specific, not named doctor (Per consultation)</small>
+                        </div>
+                        <span class="service-price">$298</span>
+                    </div>
+                    <div class="service-item" data-id="core2" data-type="service" data-name="Named Renowned Professor / Senior Consultant Appointment" data-details="Per consultation" data-price="495">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Named Renowned Professor / Senior Consultant Appointment</strong>
+                            <small>Per consultation</small>
+                        </div>
+                        <span class="service-price">$495</span>
+                    </div>
+                    <div class="service-item" data-id="core3" data-type="service" data-name="Named Lead Surgeon Arrangement" data-details="Per surgical coordination (Covers dedicated scheduling, OR priority, team review, nursing)" data-price="3430">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Named Lead Surgeon Arrangement</strong>
+                            <small>Per surgical coordination (Covers dedicated scheduling, OR priority, team review, nursing)</small>
+                        </div>
+                        <span class="service-price">$3,430</span>
+                    </div>
+                    <div class="service-item" data-id="core4" data-type="service" data-name="VIP Inpatient Suite (Hotel-style single room)" data-details="Per night, ~30 sqm, incl. companion bed (Specify nights in quote request)" data-price="275" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>VIP Inpatient Suite (Hotel-style single room)</strong>
+                            <small>Per night, ~30 sqm, incl. companion bed (Specify nights in quote request)</small>
+                        </div>
+                        <span class="service-price">$275 / night</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Category: Support Services -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Support Services <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="support1" data-type="service" data-name="Full-day Medical Interpreter" data-details="8 hours professional medical interpretation (English/French/German/Spanish)" data-price="248" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Full-day Medical Interpreter</strong>
+                            <small>8 hours professional medical interpretation (English/French/German/Spanish)</small>
+                        </div>
+                        <span class="service-price">$248</span>
+                    </div>
+                    <div class="service-item" data-id="support2" data-type="service" data-name="Full-day Personal Assistant" data-details="Manages all hospital procedures & guidance" data-price="138" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Full-day Personal Assistant</strong>
+                            <small>Manages all hospital procedures & guidance</small>
+                        </div>
+                        <span class="service-price">$138</span>
+                    </div>
+                    <div class="service-item" data-id="support3" data-type="service" data-name="Multi-Disciplinary Team (MDT) Consultation" data-details="3+ specialists collaborate on your case" data-price="688">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Multi-Disciplinary Team (MDT) Consultation</strong>
+                            <small>3+ specialists collaborate on your case</small>
+                        </div>
+                        <span class="service-price">$688</span>
+                    </div>
+                    <div class="service-item" data-id="support4" data-type="service" data-name="Post-op Remote Follow-up (Online)" data-details="Each 15-min video consultation with your surgeon" data-price="398" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Post-op Remote Follow-up (Online)</strong>
+                            <small>Each 15-min video consultation with your surgeon</small>
+                        </div>
+                        <span class="service-price">$398</span>
+                    </div>
+                    <div class="service-item" data-id="support5" data-type="service" data-name="Comprehensive Executive Health Check (2-day intensive)" data-details="Includes gastroscopy, colonoscopy, full body imaging" data-price="1210">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Comprehensive Executive Health Check (2-day intensive)</strong>
+                            <small>Includes gastroscopy, colonoscopy, full body imaging</small>
+                        </div>
+                        <span class="service-price">$1,210</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Category: Transportation -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Transportation <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="trans1" data-type="service" data-name="Airport Pickup (Luxury 6-seater)" data-details="Meet & greet, luggage assistance, hotel transfer" data-price="99">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Airport Pickup (Luxury 6-seater)</strong>
+                            <small>Meet & greet, luggage assistance, hotel transfer</small>
+                        </div>
+                        <span class="service-price">$99</span>
+                    </div>
+                    <div class="service-item" data-id="trans2" data-type="service" data-name="Airport Drop-off (Luxury 6-seater)" data-details="Hotel to airport transfer, check-in assistance" data-price="99">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Airport Drop-off (Luxury 6-seater)</strong>
+                            <small>Hotel to airport transfer, check-in assistance</small>
+                        </div>
+                        <span class="service-price">$99</span>
+                    </div>
+                    <div class="service-item" data-id="trans3" data-type="service" data-name="Full-day Private Driver (8 hrs / 200 km)" data-details="Luxury 6-seater, at your disposal" data-price="308" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Full-day Private Driver (8 hrs / 200 km)</strong>
+                            <small>Luxury 6-seater, at your disposal</small>
+                        </div>
+                        <span class="service-price">$308 / day</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Category: Luxury Accommodation -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Luxury Accommodation <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="acc1" data-type="service" data-name="5-Star Hotel: Four Seasons" data-details="Tower view room, incl. breakfast, located on 69-100th floor (Per night)" data-price="358" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>5-Star Hotel: Four Seasons</strong>
+                            <small>Tower view room, incl. breakfast, located on 69-100th floor (Per night)</small>
+                        </div>
+                        <span class="service-price">$358 / night</span>
+                    </div>
+                    <div class="service-item" data-id="acc2" data-type="service" data-name="5-Star Hotel: Rosewood" data-details="Deluxe room, incl. breakfast, city skyline view (Per night)" data-price="278" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>5-Star Hotel: Rosewood</strong>
+                            <small>Deluxe room, incl. breakfast, city skyline view (Per night)</small>
+                        </div>
+                        <span class="service-price">$278 / night</span>
+                    </div>
+                    <div class="service-item" data-id="acc3" data-type="service" data-name="5-Star Hotel: Mandarin Oriental" data-details="Forbes 5-star, heart of Taikoo Hui (Per night)" data-price="278" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>5-Star Hotel: Mandarin Oriental</strong>
+                            <small>Forbes 5-star, heart of Taikoo Hui (Per night)</small>
+                        </div>
+                        <span class="service-price">$278 / night</span>
+                    </div>
+                    <div class="service-item" data-id="acc4" data-type="service" data-name="5-Star Hotel: InterContinental" data-details="Executive room, incl. breakfast, river view (Per night)" data-price="238" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>5-Star Hotel: InterContinental</strong>
+                            <small>Executive room, incl. breakfast, river view (Per night)</small>
+                        </div>
+                        <span class="service-price">$238 / night</span>
+                    </div>
+                    <div class="service-item" data-id="acc5" data-type="service" data-name="Serviced Apartment (long-stay recovery)" data-details="Full kitchen, living room, weekly cleaning (Per night)" data-price="138" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Serviced Apartment (long-stay recovery)</strong>
+                            <small>Full kitchen, living room, weekly cleaning (Per night)</small>
+                        </div>
+                        <span class="service-price">$138 / night</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Category: Health & Wellness / Cuisine -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Health & Wellness / Cuisine <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="wellness1" data-type="service" data-name="Michelin Star Cantonese Banquet" data-details="Per person (Avg price, actual varies)" data-price="83" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Michelin Star Cantonese Banquet</strong>
+                            <small>Per person (Avg price, actual varies)</small>
+                        </div>
+                        <span class="service-price">$83+ / person</span>
+                    </div>
+                    <div class="service-item" data-id="wellness2" data-type="service" data-name="Traditional Cantonese Dim Sum Brunch" data-details="Per person" data-price="21" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Traditional Cantonese Dim Sum Brunch</strong>
+                            <small>Per person</small>
+                        </div>
+                        <span class="service-price">$21 / person</span>
+                    </div>
+                    <div class="service-item" data-id="wellness3" data-type="service" data-name="TCM Body Constitution Analysis & Dietary Plan" data-details="TCM diagnosis + personalized herbal diet plan" data-price="238">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>TCM Body Constitution Analysis & Dietary Plan</strong>
+                            <small>TCM diagnosis + personalized herbal diet plan</small>
+                        </div>
+                        <span class="service-price">$238</span>
+                    </div>
+                    <div class="service-item" data-id="wellness4" data-type="service" data-name="Post-op Dietary Meal" data-details="Doctor-guided design for optimal recovery (Per meal)" data-price="41" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Post-op Dietary Meal</strong>
+                            <small>Doctor-guided design for optimal recovery (Per meal)</small>
+                        </div>
+                        <span class="service-price">$41 / meal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Category: Guangdong Exploration -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Guangdong Exploration <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="explore1" data-type="service" data-name="Guangzhou Classic Day Tour" data-details="Chen Clan Academy, Shamian Island, Canton Tower (Per day)" data-price="481" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Guangzhou Classic Day Tour</strong>
+                            <small>Chen Clan Academy, Shamian Island, Canton Tower (Per day)</small>
+                        </div>
+                        <span class="service-price">$481 / day</span>
+                    </div>
+                    <div class="service-item" data-id="explore2" data-type="service" data-name="Shenzhen Day Tour" data-details="City sightseeing (Per day)" data-price="481" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Shenzhen Day Tour</strong>
+                            <small>City sightseeing (Per day)</small>
+                        </div>
+                        <span class="service-price">$481 / day</span>
+                    </div>
+                    <div class="service-item" data-id="explore3" data-type="service" data-name="Pearl River Night Cruise & Dinner" data-details="Boat tour with dazzling night views, incl. dinner (Per person)" data-price="83" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Pearl River Night Cruise & Dinner</strong>
+                            <small>Boat tour with dazzling night views, incl. dinner (Per person)</small>
+                        </div>
+                        <span class="service-price">$83 / person</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Category: Additional Services We Anticipate You Might Need -->
+            <div class="service-category">
+                <h3 onclick="toggleCategory(this)">Additional Anticipated Services <span class="toggle-icon">+</span></h3>
+                <div class="service-list hidden">
+                    <div class="service-item" data-id="add1" data-type="service" data-name="Pre-departure Remote Medical Record Review" data-details="Your future lead doctor reviews records (15-min video call)" data-price="413">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Pre-departure Remote Medical Record Review</strong>
+                            <small>Your future lead doctor reviews records (15-min video call)</small>
+                        </div>
+                        <span class="service-price">$413</span>
+                    </div>
+                    <div class="service-item" data-id="add2" data-type="service" data-name="Post-discharge Hotel Nursing Care" data-details="Nurse visits hotel for wound care & recovery guidance (Per visit)" data-price="165" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Post-discharge Hotel Nursing Care</strong>
+                            <small>Nurse visits hotel for wound care & recovery guidance (Per visit)</small>
+                        </div>
+                        <span class="service-price">$165 / visit</span>
+                    </div>
+                    <div class="service-item" data-id="add3" data-type="service" data-name="Family Companion Support Service" data-details="Personal assistant for accompanying family members (Per day)" data-price="110" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Family Companion Support Service</strong>
+                            <small>Personal assistant for accompanying family members (Per day)</small>
+                        </div>
+                        <span class="service-price">$110 / day</span>
+                    </div>
+                    <div class="service-item" data-id="add4" data-type="service" data-name="Full Medical Report English Translation" data-details="Professional certified translation of medical history & discharge summary (Per set)" data-price="275">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Full Medical Report English Translation</strong>
+                            <small>Professional certified translation of medical history & discharge summary (Per set)</small>
+                        </div>
+                        <span class="service-price">$275 / set</span>
+                    </div>
+                    <div class="service-item" data-id="add5" data-type="service" data-name="International Insurance Direct Billing Coordination" data-details="Pre-authorization, payment guarantee liaison" data-price="138">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>International Insurance Direct Billing Coordination</strong>
+                            <small>Pre-authorization, payment guarantee liaison</small>
+                        </div>
+                        <span class="service-price">$138</span>
+                    </div>
+                    <div class="service-item" data-id="add6" data-type="service" data-name="Personal Health Butler (Full Journey)" data-details="Dedicated butler available 24/7 to coordinate your entire trip (Per day)" data-price="550" data-adjustable="true">
+                        <input type="checkbox">
+                        <div class="service-details">
+                            <strong>Personal Health Butler (Full Journey)</strong>
+                            <small>Dedicated butler available 24/7 to coordinate your entire trip (Per day)</small>
+                        </div>
+                        <span class="service-price">$550 / day</span>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End Custom Mode Content -->
+
+
+        <!-- Choose A Package Mode Content -->
+        <div id="packageModeContent" class="content-mode hidden">
+            <h2>Choose From Our Curated Packages</h2>
+            <p>Opt for one of our pre-designed itineraries for a streamlined and convenient medical journey. Select a package to see its details and estimated cost.</p>
+
+            <!-- Package Card: 3-Day Rapid Diagnosis Tour -->
+            <div class="package-card" data-id="package1" data-type="package" data-name="3-Day Rapid Diagnosis Tour" data-price="4500">
+                <h3 onclick="toggleCategory(this)">3-Day Rapid Diagnosis Tour <span class="toggle-icon">+</span></h3>
+                <div class="package-details hidden">
+                    <p><em>Ideal for comprehensive check-ups or obtaining a second medical opinion.</em></p>
+                    <ul>
+                        <li><strong>Day 1 (Arrival):</strong> Airport pickup, Four Seasons Hotel check-in, Michelin-star Cantonese welcome dinner.</li>
+                        <li><strong>Day 2 (Diagnosis):</strong> Private driver, Renowned Professor Consultation, Full-day imaging & lab tests (results within hours), afternoon multi-disciplinary specialist consultation, relaxed cultural walk on Shamian Island.</li>
+                        <li><strong>Day 3 (Departure):</strong> Final surgeon summary & debriefing, collect English medical report, souvenir shopping, airport drop-off.</li>
+                    </ul>
+                    <p class="package-price">Estimated Package Price: $4,500</p>
+                    <div class="service-item">
+                        <input type="radio" name="package_selection">
+                        <label>Select this package</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Package Card: 14-Day Surgery + Recovery Tour -->
+            <div class="package-card" data-id="package2" data-type="package" data-name="14-Day Surgery + Recovery Tour" data-price="32118">
+                <h3 onclick="toggleCategory(this)">14-Day Surgery + Recovery Tour <span class="toggle-icon">+</span></h3>
+                <div class="package-details hidden">
+                    <p><em>Suitable for non-emergency surgery and full post-operative recovery.</em></p>
+                    <ul>
+                        <li><strong>Days 1-2 (Arrival & Preparation):</strong> Airport pickup, Hotel check-in, Professor consultation, Pre-op final tests, relaxed Pearl River night cruise.</li>
+                        <li><strong>Days 3-6 (Surgery & Hospital Stay):</strong> Surgery (e.g., knee replacement), 4 nights VIP suite, Lead surgeon daily rounds, post-op acupuncture pain relief, therapeutic diet meals.</li>
+                        <li><strong>Days 7-13 (Discharge & Recovery):</strong> Transfer to serviced apartment, daily nurse home care, physical therapy, Cantonese dim sum brunch, half-day wellness walk on Baiyun Mountain, day trip to Conghua Hot Springs.</li>
+                        <li><strong>Day 14 (Departure):</strong> Final surgeon follow-up & recovery confirmation, medical report translation, airport drop-off (wheelchair service available).</li>
+                    </ul>
+                    <p class="package-price">Estimated Package Price: $32,118</p>
+                    <div class="service-item">
+                        <input type="radio" name="package_selection">
+                        <label>Select this package</label>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End Package Mode Content -->
+
+    </div> <!-- End Container -->
+
+    <!-- NEW Summary Bar -->
+    <div class="new-summary-bar" id="newSummaryBar">
+        <div class="summary-info">
+            <span class="selection-count" id="summarySelectionCount">0 selections</span>
+            <span class="total-amount" id="summaryTotalPrice">$0.00</span>
+        </div>
+        <button class="review-button" onclick="showSelectionsPopup()">
+            <i class="fas fa-chevron-up"></i> Review & Book
+        </button>
+    </div>
+
+    <!-- Your Selections Popup/Drawer -->
+    <div class="selections-popup-overlay" id="selectionsPopupOverlay">
+        <div class="selections-popup-content">
+            <div class="selections-popup-header">
+                <h4><i class="fas fa-box-open"></i> Your selections</h4>
+                <button class="close-btn" onclick="hideSelectionsPopup()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="selections-list" id="selectionsList">
+                <!-- Selected items will be rendered here by JavaScript -->
+                <p style="text-align: center; color: #6c757d;">No items selected yet.</p>
+            </div>
+            <div class="selections-total-section">
+                <span>Total (USD)</span>
+                <span class="total-value" id="popupTotalPrice">$0.00</span>
+            </div>
+            <div class="selections-form-section">
+                <input type="text" id="fullName" placeholder="Full name *" required>
+                <input type="email" id="emailAddress" placeholder="Email address *" required>
+                <button class="request-button" onclick="submitItineraryRequest()">
+                    <i class="fas fa-gem"></i> Request personalized itinerary
+                </button>
+                <p class="secure-info"><i class="fas fa-lock"></i> Secure &middot; Response within 2h</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Floating Contact Button -->
+    <div class="contact-float-btn" id="contactFloatBtn" onclick="toggleContactPopup()">💬</div>
+
+    <!-- Contact Pop-up Window -->
+    <div class="contact-popup" id="contactPopup">
+        <h4>Need Help? Contact Us!</h4>
+        <ul>
+            <li><span class="icon icon-phone"></span> <a href="tel:+1234567890">+1 (234) 567-890</a> (USA)</li>
+            <li><span class="icon icon-whatsapp"></span> <a href="https://wa.me/8613800138000" target="_blank">WhatsApp Us</a></li>
+            <li><span class="icon icon-email"></span> <a href="mailto:jamzhang@myplatforminc.com">Email Us</a></li>
+        </ul>
+    </div>
+
+  <script>
+        let currentMode = 'custom'; // 'custom' or 'package'
+        let contactPopupVisible = false;
+        // 使用两个数组来分别存储定制服务和套餐的选择，实现彻底隔离
+        let selectedCustomServices = [];
+        let selectedPackage = null; // 只能选择一个套餐，所以用单个变量
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event listeners for custom services checkboxes
+            const customCheckboxes = document.querySelectorAll('#customModeContent input[type="checkbox"]');
+            customCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', (event) => {
+                    if (currentMode === 'custom') { // 确保只在定制模式下响应定制服务的勾选
+                        const serviceItem = event.target.closest('.service-item');
+                        if (event.target.checked) {
+                            addCustomServiceToSelection(serviceItem);
+                        } else {
+                            removeCustomServiceFromSelection(serviceItem.dataset.id);
+                        }
+                    } else {
+                        // 如果不在定制模式下，用户不应该能勾选，强制还原状态
+                        event.target.checked = false;
+                    }
+                });
+            });
+
+            // Event listeners for package radio buttons
+            const packageRadios = document.querySelectorAll('#packageModeContent input[type="radio"]');
+            packageRadios.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    if (currentMode === 'package') { // 确保只在套餐模式下响应套餐选择
+                        if (event.target.checked) {
+                            const packageCard = event.target.closest('.package-card');
+                            selectNewPackage(packageCard);
+                        }
+                    } else {
+                        // 如果不在套餐模式下，用户不应该能选择，强制还原状态
+                        event.target.checked = false;
+                    }
+                });
+            });
+
+            // Initial mode setting and update UI
+            setMode('custom'); // Start with custom mode
+        });
+
+        // ===============================================
+        // 核心模式切换函数
+        // ===============================================
+        function setMode(mode) {
+            currentMode = mode;
+
+            // 更新模式按钮的激活状态
+            document.getElementById('customModeBtn').classList.toggle('active', mode === 'custom');
+            document.getElementById('packageModeBtn').classList.toggle('active', mode === 'package');
+
+            // 切换内容区域的显示/隐藏
+            document.getElementById('customModeContent').classList.toggle('hidden', mode !== 'custom');
+            document.getElementById('packageModeContent').classList.toggle('hidden', mode !== 'package');
+
+            // 根据新模式同步 input 状态和 selectedItems 数组
+            syncInputStatesWithSelections();
+            updateSummaryBox(); // 每次模式切换后更新底部总结条
+        }
+
+        // ===============================================
+        // 同步 input 元素（复选框/单选框）的 checked 状态与 selection 数组
+        // ===============================================
+        function syncInputStatesWithSelections() {
+            // 清空所有定制服务的复选框状态
+            document.querySelectorAll('#customModeContent input[type="checkbox"]').forEach(c => c.checked = false);
+            // 清空所有套餐的单选框状态
+            document.querySelectorAll('input[name="package_selection"]').forEach(r => r.checked = false);
+
+            if (currentMode === 'custom') {
+                // 根据 selectedCustomServices 重新勾选定制服务
+                selectedCustomServices.forEach(selectedItem => {
+                    const checkbox = document.querySelector(`.service-item[data-id="${selectedItem.id}"] input[type="checkbox"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+            } else { // package mode
+                // 根据 selectedPackage 重新选中套餐
+                if (selectedPackage) {
+                    const radio = document.querySelector(`.package-card[data-id="${selectedPackage.id}"] input[type="radio"]`);
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                }
+            }
+        }
+
+
+        // ===============================================
+        // 定制服务相关的操作
+        // ===============================================
+        function addCustomServiceToSelection(serviceElement) {
+            const id = serviceElement.dataset.id;
+            const name = serviceElement.dataset.name;
+            const details = serviceElement.dataset.details;
+            const price = parseFloat(serviceElement.dataset.price);
+            const type = serviceElement.dataset.type;
+            const adjustable = serviceElement.dataset.adjustable === 'true';
+
+            const existingItem = selectedCustomServices.find(item => item.id === id);
+            if (!existingItem) {
+                selectedCustomServices.push({
+                    id,
+                    name,
+                    details,
+                    price,
+                    type,
+                    quantity: 1,
+                    adjustable
+                });
+            }
+            updateSummaryBox();
+        }
+
+        function removeCustomServiceFromSelection(id) {
+            selectedCustomServices = selectedCustomServices.filter(item => item.id !== id);
+            updateSummaryBox();
+        }
+
+        // ===============================================
+        // 套餐服务相关的操作
+        // ===============================================
+        function selectNewPackage(packageElement) {
+            const id = packageElement.dataset.id;
+            const name = packageElement.dataset.name;
+            const price = parseFloat(packageElement.dataset.price);
+            const type = packageElement.dataset.type;
+
+            // 清空所有定制服务选择，因为套餐模式是独立的
+            selectedCustomServices = []; // 确保定制服务被清空
+            
+            // 设置新的套餐
+            selectedPackage = {
+                id,
+                name,
+                details: "Pre-designed Package",
+                price,
+                type,
+                quantity: 1,
+                adjustable: false
+            };
+            updateSummaryBox();
+        }
+
+
+        // ===============================================
+        // 更新底部总结条
+        // ===============================================
+        function updateSummaryBox() {
+            let total = 0;
+            let count = 0;
+            let currentSelections = [];
+
+            if (currentMode === 'custom') {
+                currentSelections = selectedCustomServices;
+            } else { // package mode
+                if (selectedPackage) {
+                    currentSelections = [selectedPackage];
+                }
+            }
+
+            currentSelections.forEach(item => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+            });
+
+            document.getElementById('summarySelectionCount').textContent = `${currentSelections.length} selections`;
+            document.getElementById('summaryTotalPrice').textContent = '$' + total.toFixed(2);
+        }
+
+        // ===============================================
+        // 类别折叠/展开
+        // ===============================================
+        function toggleCategory(headerElement) {
+            const contentList = headerElement.nextElementSibling;
+            const toggleIcon = headerElement.querySelector('.toggle-icon');
+            const isHidden = contentList.classList.toggle('hidden');
+            toggleIcon.textContent = isHidden ? '+' : '−';
+        }
+
+        // ===============================================
+        // 弹窗显示/隐藏和渲染
+        // ===============================================
+        function showSelectionsPopup() {
+            renderSelectionsPopup();
+            document.getElementById('selectionsPopupOverlay').classList.add('show');
+        }
+
+        function hideSelectionsPopup() {
+            document.getElementById('selectionsPopupOverlay').classList.remove('show');
+        }
+
+        function renderSelectionsPopup() {
+            const selectionsListDiv = document.getElementById('selectionsList');
+            selectionsListDiv.innerHTML = ''; // Clear previous content
+
+            let popupTotal = 0;
+            let itemsToRender = [];
+
+            if (currentMode === 'custom') {
+                itemsToRender = selectedCustomServices;
+            } else if (selectedPackage) {
+                itemsToRender = [selectedPackage];
+            }
+
+            if (itemsToRender.length === 0) {
+                selectionsListDiv.innerHTML = '<p style="text-align: center; color: #6c757d;">No items selected yet.</p>';
+            } else {
+                itemsToRender.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('selections-list-item');
+                    itemElement.dataset.id = item.id; // Add data-id for reference
+
+                    let quantityControlsHtml = '';
+                    // 只有在定制模式下且服务可调整数量时才显示 +/- 按钮
+                    if (currentMode === 'custom' && item.adjustable && item.type === 'service') { 
+                        quantityControlsHtml = `
+                            <div class="quantity-controls">
+                                <button onclick="updateItemQuantity('${item.id}', -1)"><i class="fas fa-minus"></i></button>
+                                <span class="quantity-display">${item.quantity}</span>
+                                <button onclick="updateItemQuantity('${item.id}', 1)"><i class="fas fa-plus"></i></button>
+                            </div>
+                        `;
+                    } else { // 套餐或不可调整数量的服务，只显示数量
+                        quantityControlsHtml = `<span class="quantity-display">${item.quantity}</span>`; 
+                    }
+
+                    itemElement.innerHTML = `
+                        <div class="item-details">
+                            <strong>${item.name}</strong>
+                            <small>${item.details}</small>
+                        </div>
+                        ${quantityControlsHtml}
+                        <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+                    `;
+                    selectionsListDiv.appendChild(itemElement);
+                    popupTotal += item.price * item.quantity;
+                });
+            }
+            document.getElementById('popupTotalPrice').textContent = '$' + popupTotal.toFixed(2);
+        }
+
+        function updateItemQuantity(id, delta) {
+            // 确保只在定制模式下更新定制服务的数量
+            if (currentMode === 'custom') {
+                const itemIndex = selectedCustomServices.findIndex(item => item.id === id);
+                if (itemIndex > -1) {
+                    const item = selectedCustomServices[itemIndex];
+                    const newQuantity = item.quantity + delta;
+                    if (newQuantity >= 1) {
+                        item.quantity = newQuantity;
+                    } else if (newQuantity === 0) {
+                        // If quantity goes to 0, remove the item
+                        selectedCustomServices.splice(itemIndex, 1);
+                        // Also uncheck the corresponding checkbox in the main content
+                        const checkbox = document.querySelector(`.service-item[data-id="${id}"] input[type="checkbox"]`);
+                        if (checkbox) checkbox.checked = false;
+                    }
+                    updateSummaryBox();
+                    renderSelectionsPopup(); // Re-render the popup to show updated quantities/total
+                }
+            }
+        }
+
+        // ===============================================
+        // 提交行程请求
+        // ===============================================
+        function submitItineraryRequest() {
+            const fullName = document.getElementById('fullName').value;
+            const emailAddress = document.getElementById('emailAddress').value;
+
+            if (!fullName || !emailAddress) {
+                alert("Please fill in your full name and email address.");
+                return;
+            }
+
+            let message = `Hello,\n\nI would like to request a personalized itinerary based on the following selections:\n\n`;
+            let totalCost = 0;
+            let itemsForEmail = [];
+
+            if (currentMode === 'custom') {
+                itemsForEmail = selectedCustomServices;
+            } else if (selectedPackage) {
+                itemsForEmail = [selectedPackage];
+            }
+
+            if (itemsForEmail.length === 0) {
+                message += "No specific services or packages were selected, but I am interested in learning more.\n\n";
+            } else {
+                itemsForEmail.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalCost += itemTotal;
+                    message += `- ${item.name}`;
+                    if (item.details && item.details !== "Pre-designed Package") {
+                        message += ` (${item.details})`;
+                    }
+                    if (item.quantity > 1) {
+                        message += ` x ${item.quantity}`;
+                    }
+                    message += `: $${itemTotal.toFixed(2)}\n`;
+                });
+                message += `\nEstimated Total: $${totalCost.toFixed(2)}\n\n`;
+            }
+
+            message += `My contact details are:\n`;
+            message += `Full Name: ${fullName}\n`;
+            message += `Email Address: ${emailAddress}\n\n`;
+            message += `Please provide a detailed quote and discuss next steps.`;
+
+            const subject = encodeURIComponent("Inquiry: Personalized Itinerary Request - " + fullName);
+            const body = encodeURIComponent(message);
+            window.location.href = `mailto:jamzhang@myplatforminc.com?subject=${subject}&body=${body}`;
+
+            alert("Thank you for your request! An email with your selections has been prepared. Please review and send it to us for a detailed quote. We aim to respond within 2 hours.");
+            hideSelectionsPopup(); // Close the popup after submission
+        }
+
+
+        // ===============================================
+        // 浮动联系按钮逻辑 (保持不变)
+        // ===============================================
+        let isDragging = false;
+        let startY = 0;
+        let initialButtonTop = 0;
+        let moveDistance = 0; 
+
+        const floatBtn = document.getElementById('contactFloatBtn');
+        const contactPopup = document.getElementById('contactPopup');
+
+        function makeDraggable(element) {
+            element.addEventListener('mousedown', dragStart);
+            window.addEventListener('mousemove', drag);
+            window.addEventListener('mouseup', dragEnd);
+            element.addEventListener('touchstart', dragStart, { passive: false });
+            window.addEventListener('touchmove', drag, { passive: false });
+            window.addEventListener('touchend', dragEnd);
+        }
+
+        function dragStart(e) {
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            isDragging = false; 
+            moveDistance = 0;
+            startY = clientY;
+            initialButtonTop = floatBtn.offsetTop;
+        }
+
+        function drag(e) {
+            if (startY === 0) return;
+
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const deltaY = clientY - startY;
+            moveDistance = Math.abs(deltaY);
+
+            if (moveDistance > 5) {
+                isDragging = true;
+                if (e.cancelable) e.preventDefault();
+
+                let newY = initialButtonTop + deltaY;
+                const maxY = window.innerHeight - floatBtn.offsetHeight - 20;
+                const minY = 20;
+                newY = Math.max(minY, Math.min(newY, maxY));
+
+                floatBtn.style.top = newY + 'px';
+                floatBtn.style.transform = 'none';
+                
+                contactPopup.style.top = newY + 'px';
+                contactPopup.style.transform = 'none';
+            }
+        }
+
+        function dragEnd(e) {
+            if (!isDragging && moveDistance < 5 && startY !== 0) {
+                toggleContactPopup();
+            }
+            
+            startY = 0;
+            setTimeout(() => { isDragging = false; }, 50);
+        }
+
+        function toggleContactPopup() {
+            contactPopupVisible = !contactPopupVisible;
+            contactPopup.classList.toggle('show', contactPopupVisible);
+        }
+    </script>
+</body>
+</html>
